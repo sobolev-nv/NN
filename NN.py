@@ -77,17 +77,22 @@ class neuron_network_with_teacher(neuron_network):
         for i in range(len(getted_output)):
             error+= ((ideal_number[i] - getted_output[i])**2)
         error /= len(getted_output)
+        error = round(error, 4)*100
 
         return error
+
+    def correct_weight(self, ideal_number):
+        getted_output = self.layers[-1].get_output("final")
+        
+
 
 if __name__ == '__main__':
     net = neuron_network_with_teacher([2, 2, 1])
     net.layers[0].weight = [[0.45, 0.78],[-0.12, 0.13]]
     net.layers[1].weight = [[1.5],[-2.3]]
     print(net.start([1, 0]))
-    error = round(net.get_error([1]), 2)
-    # print(round(error, 2))
-    print("error = %d%%" % int(error*100))
+    error = net.get_error([1])
+    print("error = %.3f%%" % error)
 
 
     # I = layer(2, 2)
